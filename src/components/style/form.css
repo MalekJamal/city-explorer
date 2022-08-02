@@ -1,0 +1,26 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+}
+
+
+.div-form {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+
+}
+
+#leable {
+
+    font-weight: bold;
+}
+
+#userCityInput {
+    text-align: center !important;
+    font-weight: bold;
+}
