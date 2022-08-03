@@ -16,9 +16,7 @@ class Main extends Component {
             <Card.Text>Longitude: {this.props.longitude}</Card.Text>
             <Card.Text>Latitude: {this.props.latitude}</Card.Text>
           </Card.Body>
-          <Card.Footer id="card-footer">
-            <Map map_src={this.props.map_src} />
-          </Card.Footer>
+          <Map map_src={this.props.map_src} />
         </Card>
       </div>
     );

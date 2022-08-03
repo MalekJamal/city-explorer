@@ -7,15 +7,18 @@
 .main{
  margin-top: 20px;
  margin-bottom: 58px;
+ width: 50%;
+ 
+ margin: auto; 
+ 
 }
-.card-footer{
-    background: rgb(174, 174, 174)!important;
-}
+
 
 .card{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    align-items: center;
+    align-items: center;    
+    
     
 }
