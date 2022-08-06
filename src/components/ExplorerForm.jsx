@@ -6,7 +6,7 @@ import axios from "axios";
 import Main from "./Main";
 import ErrorAlert from "./ErrorAlert";
 import Weather from "./Weather";
-import Movie from "./Movie";
+import Movies from "./Movies";
 
 class ExplorerForm extends Component {
   constructor(props) {
@@ -55,6 +55,8 @@ class ExplorerForm extends Component {
         errorMessage: error.message + ", " + error.response.data.error,
         displayError: true,
         displayName: "",
+        isMovie: false,
+        isWeather:false
       });
     }
   };
@@ -74,6 +76,7 @@ class ExplorerForm extends Component {
         displayError: true,
         isWeather: false,
         displayName: "",
+        isMovie: false,
       });
     }
   };
@@ -131,7 +134,7 @@ class ExplorerForm extends Component {
         {this.state.isWeather && <Weather weatherInfo={this.state.weather} />}
 
         {this.state.isMovie && (
-          <Movie
+          <Movies
             moviesData={this.state.movies}
             cityName={this.state.displayName}
           />
