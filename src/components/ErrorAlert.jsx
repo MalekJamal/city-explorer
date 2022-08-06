@@ -4,7 +4,7 @@ class ErrorAlert extends Component {
   render() {
     return (
       <div>
-        <Alert variant="danger">
+        <Alert variant="danger" style={{margin:"20px"}}>
           <Alert.Heading>{this.props.errorMessage} </Alert.Heading>
           <hr />
           <h3>Try Again!!</h3>
