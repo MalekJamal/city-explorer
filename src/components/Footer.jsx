@@ -12,9 +12,7 @@ class Footer extends Component {
                         position: "fixed",
                         left: 0,
                         bottom: 1,
-                        right: 0,
-                        paddingTop:"50px"
-                        
+                        right: 0,      
                     }}
           >
             &copy; {new Date().getFullYear()} Copyright:{" "}
