@@ -62,7 +62,7 @@ class ExplorerForm extends Component {
   displayWeather = async (searchQuery, lat, lon) => {
     try {
       const weatherData = await axios.get(
-        `${process.env.REACT_APP_HEROKU_SERVER}weather?searchQuery=${searchQuery}&lat=${lat}&lon=${lon}`
+        `https://city-explorer-api-3001.herokuapp.com/weather?searchQuery=${searchQuery}&lat=${lat}&lon=${lon}`
       );
       this.setState({
         isWeather: true,
@@ -80,7 +80,7 @@ class ExplorerForm extends Component {
   displayMovies = async (searchQuery) => {
     try {
       const moviesData = await axios.get(
-        `${process.env.REACT_APP_HEROKU_SERVER}movies?searchQuery=${searchQuery}`
+        `https://city-explorer-api-3001.herokuapp.com/movies?searchQuery=${searchQuery}`
       );
       this.setState({
         movies: moviesData.data,
