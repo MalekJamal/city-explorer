@@ -6,6 +6,7 @@ import axios from "axios";
 import Main from "./Main";
 import ErrorAlert from "./ErrorAlert";
 import Weather from "./Weather";
+import Movie from "./Movie";
 
 class ExplorerForm extends Component {
   constructor(props) {
@@ -19,8 +20,10 @@ class ExplorerForm extends Component {
       latitude: "",
       errorMessage: "",
       displayError: false,
-      weather:[],
-      isWeather:false
+      weather: [],
+      isWeather: false,
+      movies: [],
+      isMovie: false,
     };
   }
 
@@ -29,8 +32,8 @@ class ExplorerForm extends Component {
     event.preventDefault();
 
     const searchQuery = event.target.userCityInput.value;
-    const url =   `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_EXPLORER}&q=${event.target.userCityInput.value}&format=json`;
-    
+    const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_EXPLORER}&q=${event.target.userCityInput.value}&format=json`;
+
     try {
       const cityData = await axios.get(url);
       this.setState({
@@ -40,41 +43,62 @@ class ExplorerForm extends Component {
         latitude: cityData.data[0].lat,
         displayError: false,
       });
-      this.displayWeather(searchQuery,cityData.data[0].lat,cityData.data[0].lon);
+      this.displayWeather(
+        searchQuery,
+        cityData.data[0].lat,
+        cityData.data[0].lon
+      );
+      this.displayMovies(searchQuery);
       //console.log(searchQuery)
     } catch (error) {
       this.setState({
         errorMessage: error.message + ", " + error.response.data.error,
         displayError: true,
         displayName: "",
-        
       });
-     
     }
   };
 
-  displayWeather= async (searchQuery, lat, lon)=>{
-    
+  displayWeather = async (searchQuery, lat, lon) => {
     try {
-      const weatherData = await axios.get(`${process.env.REACT_APP_SERVER_PORT}searchQuery=${searchQuery}&lat=${lat}&lon=${lon}`)
+      const weatherData = await axios.get(
+        `${process.env.REACT_APP_HEROKU_SERVER}weather?searchQuery=${searchQuery}&lat=${lat}&lon=${lon}`
+      );
       this.setState({
-      isWeather:true,
-      weather: weatherData.data,
-      
-      
-      
-    })
-
+        isWeather: true,
+        weather: weatherData.data,
+      });
     } catch (error) {
       this.setState({
-        errorMessage:error.message + ", " + error.response.data.error,
+        errorMessage: error.message + ", " + error.response.data.error,
         displayError: true,
         isWeather: false,
-        displayName:""
-      })
+        displayName: "",
+      });
     }
-  }
-
+  };
+  displayMovies = async (searchQuery) => {
+    try {
+      const moviesData = await axios.get(
+        `${process.env.REACT_APP_HEROKU_SERVER}movies?searchQuery=${searchQuery}`
+      );
+      this.setState({
+        movies: moviesData.data,
+        isMovie: true,
+      });
+      console.log(moviesData.data);
+    } catch (error) {
+      this.setState({
+        errorMessage:
+          error.message +
+          ", " +
+          error.response.data.error +
+          " No Movies Found!!",
+        displayError: true,
+        isMovie: false,
+      });
+    }
+  };
   render() {
     return (
       <div className="div-form">
@@ -87,28 +111,32 @@ class ExplorerForm extends Component {
               id="userCityInput"
             />
           </Form.Group>
-          <Button variant="dark" type="submit">
+          <Button variant="dark" type="submit" style={{ marginBottom: "15px" }}>
             Explorer
           </Button>
-          </Form>
+        </Form>
 
-          {this.state.displayName && (
-            <>
-              <Main
-                displayName={this.state.displayName}
-                longitude={this.state.longitude}
-                latitude={this.state.latitude}
-                map_src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_EXPLORER}&center=${this.state.latitude},${this.state.longitude}&zoom=15`}
-                city={this.state.displayName}
-              />
-            </>
-          )}
-          {
-            this.state.isWeather &&
+        {this.state.displayName && (
+          <>
+            <Main
+              displayName={this.state.displayName}
+              longitude={this.state.longitude}
+              latitude={this.state.latitude}
+              map_src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_EXPLORER}&center=${this.state.latitude},${this.state.longitude}&zoom=10`}
+              city={this.state.displayName}
+            />
+          </>
+        )}
 
-            <Weather weatherInfo={this.state.weather} />
-          }
-        
+        {this.state.isWeather && <Weather weatherInfo={this.state.weather} />}
+
+        {this.state.isMovie && (
+          <Movie
+            moviesData={this.state.movies}
+            cityName={this.state.displayName}
+          />
+        )}
+
         {this.state.displayError && (
           <ErrorAlert errorMessage={this.state.errorMessage} />
         )}

@@ -13,6 +13,7 @@ class Footer extends Component {
                         left: 0,
                         bottom: 1,
                         right: 0,
+                        paddingTop:"50px"
                         
                     }}
           >
